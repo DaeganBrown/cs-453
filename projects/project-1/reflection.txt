@@ -1,0 +1,3 @@
+Docker compose puts both containers on the same default network, and its internal DNS uses their names to address them, giving them easy connectivity. TCP port number is ingested via environment variable, for the python application to know where to look. 
+
+If the datastore is not yet fully running by the time the python app starts, the python app attempts to ping and connect to it, then waits on fail, and repeats 5 times, one second in between. If the datastore has not fully started in 5 seconds, the python program will fail and error out. As far as the redis container itself, the api container will not start until the redis container has started AND passed a health check, so that container will always start before the api one. 
