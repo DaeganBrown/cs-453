@@ -7,7 +7,7 @@ host = os.environ.get("REDIS_HOST", "localhost")
 port = int(os.environ.get("REDIS_PORT", "6379"))
 for _ in range(5):
     try:
-        r = redis.Redis(host=host, port=port)
+        r = redis.Redis(host=host, port=port, decode_responses=True)
         r.ping()
         break
     except redis.ConnectionError:
