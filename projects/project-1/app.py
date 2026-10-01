@@ -25,7 +25,7 @@ def add_to_datastore(value):
     return value
 
 def get_from_datastore():
-    r.get("value")
+    return r.get("value")
     
 #=============================================================================#
 #= Routes                                                                    =#
