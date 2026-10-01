@@ -3,14 +3,16 @@ services:
     build: .
     ports:
       - "5000:5000"
-    # TODO (Slide 17): add an `environment:` block here with REDIS_HOST
-    #   and REDIS_PORT so your app doesn't hardcode connection info.
-    # TODO (Slide 16): add a `depends_on:` block here that waits for
-    #   redis to reach condition: service_healthy, not just service_started.
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      redis:
+        condition: service_healthy
 
   redis:
     image: redis:7
-    # TODO (Slide 16): add a `healthcheck:` block here (test, interval,
-    #   retries) so Compose actually knows when Redis is ready, not just
-    #   started. Without this, `depends_on` on the api service above has
-    #   nothing to wait on.
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      retries: 5
