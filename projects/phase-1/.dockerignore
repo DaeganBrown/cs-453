@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.git
+.gitignore
+venv/
+.venv/
+*.env
+README.md
+
+.env
+credentials*.csv
+authserver/

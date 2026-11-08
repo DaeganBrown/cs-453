@@ -1,0 +1,32 @@
+services:
+  api:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWKS_URL=${JWKS_URL:-http://10.168.26.24:9000/jwks.json}
+      - ISSUER=${ISSUER:-cs453-auth}
+      - AUDIENCE=${AUDIENCE:-cs453-api}
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  redis:
+    image: redis:7
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+
+  auth:
+    profiles: ["local"]
+    build: ./authserver
+    ports:
+      - "9000:9000"
+    environment:
+      ALLOW_DEV_CLIENT: "1"
+      ISSUER: cs453-auth
+      AUDIENCE: cs453-api
