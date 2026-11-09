@@ -1,4 +1,6 @@
 cd "$(dirname "$0")/.."
+ENV_FILE=${ENV_FILE:-$HOME/.cs453.env}
+[[ -f "$ENV_FILE" ]] && { set -a; source "$ENV_FILE"; set +a; }
 trap 'docker compose --profile local down >/dev/null 2>&1' EXIT
 
 ask_credentials() {
